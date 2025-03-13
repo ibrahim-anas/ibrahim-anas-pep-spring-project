@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.entity.Account;
 import com.example.entity.Message;
 import com.example.exception.DuplicateUsernameException;
+import com.example.exception.InvalidLoginCredentialsException;
 import com.example.service.AccountService;
 import com.example.service.MessageService;
 
@@ -35,6 +36,11 @@ public class SocialMediaController {
         return accountService.createAccount(account);
     }
 
+    @PostMapping("/login")
+    public Account userLogin(@RequestBody Account account) {
+        return accountService.userLoginAuthentication(account);
+    }
+
     @ExceptionHandler(DuplicateUsernameException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleDuplicateUsername(DuplicateUsernameException e) {
@@ -44,6 +50,12 @@ public class SocialMediaController {
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleIllegalArgument(IllegalArgumentException e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(InvalidLoginCredentialsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String handleInvalidLoginCredentials(InvalidLoginCredentialsException e) {
         return e.getMessage();
     }
 }
