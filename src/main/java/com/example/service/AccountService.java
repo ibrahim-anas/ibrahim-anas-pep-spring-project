@@ -1,7 +1,6 @@
 package com.example.service;
 
 import com.example.entity.Account;
-import com.example.entity.Message;
 import com.example.exception.DuplicateUsernameException;
 import com.example.exception.InvalidLoginCredentialsException;
 
@@ -13,6 +12,7 @@ import java.util.Optional;
 
 @Service
 public class AccountService {
+    
     private AccountRepository accountRepository;
 
     @Autowired
