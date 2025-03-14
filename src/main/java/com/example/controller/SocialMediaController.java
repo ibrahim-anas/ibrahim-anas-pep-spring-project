@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,6 +64,16 @@ public class SocialMediaController {
     @DeleteMapping("/messages/{messageId}")
     public Integer deleteMessage(@PathVariable Integer messageId) {
         return messageService.deleteMessageById(messageId);
+    }
+
+    @GetMapping("accounts/{accountId}/messages")
+    public List<Message> getMessagesByUser(@PathVariable Integer accountId) {
+        return messageService.getMessagesByUser(accountId);
+    }
+
+    @PatchMapping("messages/{messageId}")
+    public Integer updateMessage(@RequestBody Message message, @PathVariable Integer messageId) {
+        return messageService.updateMessage(message, messageId);
     }
 
     @ExceptionHandler(DuplicateUsernameException.class)

@@ -55,4 +55,27 @@ public class MessageService {
 
         return null;
     }
+
+    public List<Message> getMessagesByUser(Integer accountId) {
+        return messageRepository.findAllByPostedBy(accountId);
+    }
+
+    public Integer updateMessage(Message message, Integer messageId) {
+        Optional<Message> optionalMessage = messageRepository.findByMessageId(messageId);
+
+        if (optionalMessage.isEmpty()) {
+            throw new IllegalArgumentException("The user does not exist.");
+        }
+
+        Message updatedMessage = optionalMessage.get();
+
+        if (message.getMessageText().isBlank() || message.getMessageText().length() > 255) {
+            throw new IllegalArgumentException("The provided message text is invalid.");
+        }
+
+        updatedMessage.setMessageText(message.getMessageText());
+        messageRepository.save(message);
+        
+        return 1;
+    }
 }
